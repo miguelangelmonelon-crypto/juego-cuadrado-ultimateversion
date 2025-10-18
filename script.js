@@ -4,15 +4,17 @@ let gameArea = document.getElementById("game-area");
 let gameOverText = document.getElementById("game-over");
 
 let points = 0;
-let highScore = 0;
 let speed = 2000;
 let interval;
 let countdownInterval;
 let gameActive = false; // controla si el juego puede recibir clics
 
+// Cargar récord desde localStorage o poner 0 si no existe
+let highScore = localStorage.getItem("highScore") || 0;
+
 // Mostrar récord en pantalla
 const highScoreDisplay = document.createElement("p");
-highScoreDisplay.textContent = "Récord: 0";
+highScoreDisplay.textContent = `Récord: ${highScore}`;
 gameArea.insertAdjacentElement("afterend", highScoreDisplay);
 
 // Mueve el cuadrado a una posición aleatoria
@@ -87,10 +89,11 @@ gameArea.addEventListener("click", function() {
 
   clearInterval(interval);
 
-  // Actualizar récord si es necesario
+  // Actualizar récord si es necesario y guardar en localStorage
   if (points > highScore) {
     highScore = points;
     highScoreDisplay.textContent = `Récord: ${highScore}`;
+    localStorage.setItem("highScore", highScore);
   }
 
   // Después de 1.5s, iniciar la cuenta atrás para reiniciar
